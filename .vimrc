@@ -1,74 +1,77 @@
 " File: .vimrc
 " Author: Jake Zimmerman <jake@zimmerman.io>
-"
-" How I configure Vim :P
+" Modified: Heru Setiawan <me.herusetiawan@gmail.com>
 "
 
 " Gotta be first
 set nocompatible
 
+" Store swp file in one place
+set directory^=$HOME/.vim/tmp//
+
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 " ----- Making Vim look good ------------------------------------------
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tomasr/molokai'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " ----- Vim as a programmer's text editor -----------------------------
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
-Plugin 'majutsushi/tagbar'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'vim-scripts/a.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'vim-syntastic/syntastic'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
+Plug 'majutsushi/tagbar'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-scripts/a.vim'
 
 " ----- Working with Git ----------------------------------------------
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
 " ----- Other text editing features -----------------------------------
-Plugin 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 
 " ----- man pages, tmux -----------------------------------------------
-Plugin 'jez/vim-superman'
-Plugin 'christoomey/vim-tmux-navigator'
+Plug 'jez/vim-superman'
+Plug 'christoomey/vim-tmux-navigator'
 
 " ----- Syntax plugins ------------------------------------------------
-Plugin 'jez/vim-c0'
-Plugin 'jez/vim-ispc'
-Plugin 'kchmck/vim-coffee-script'
+Plug 'jez/vim-c0'
+Plug 'jez/vim-ispc'
+Plug 'kchmck/vim-coffee-script'
 
 "----- Ruby on Rails --------------------------------------------------
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-rake'
-Plugin 'tpope/vim-bundler'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-rake'
+Plug 'tpope/vim-bundler'
 
-" ---- Extras/Advanced plugins ----------------------------------------
-" Highlight and strip trailing whitespace
-"Plugin 'ntpeters/vim-better-whitespace'
-" Easily surround chunks of text
-"Plugin 'tpope/vim-surround'
-" Align CSV files at commas, align Markdown tables, and more
-"Plugin 'godlygeek/tabular'
-" Automaticall insert the closing HTML tag
-"Plugin 'HTML-AutoCloseTag'
-" Make tmux look like vim-airline (read README for extra instructions)
-"Plugin 'edkolev/tmuxline.vim'
-" All the other syntax plugins I use
-"Plugin 'ekalinin/Dockerfile.vim'
-"Plugin 'digitaltoad/vim-jade'
-"Plugin 'tpope/vim-liquid'
-"Plugin 'cakebaker/scss-syntax.vim'
+"----- Line bubble -----------------------------------------------------
+Plug 'tpope/vim-unimpaired'
 
-call vundle#end()
+"----- Show Indent line ------------------------------------------------
+Plug 'Yggdroot/indentLine'
+
+"----- Vim comment line -----------------------------------------------
+Plug 'vim-scripts/tComment'
+
+"----- Vim editor config-----------------------------------------------
+Plug 'editorconfig/editorconfig-vim'
+
+" ----- Vim for ruby --------------------------------------------------
+Plug 'vim-ruby/vim-ruby'
+
+" ----- YML file -----------------------------------------------------
+Plug 'chase/vim-ansible-yaml'
+
+" ----- Plugin for Golang --------------------------------------------
+Plug 'fatih/vim-go'
+
+call plug#end()
 
 filetype plugin indent on
 
@@ -84,15 +87,17 @@ set cindent
 set wrap
 set breakindent
 
-"set tab 4 space
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
+" --- Set tab 2 space
+" set tabstop=2
+" set shiftwidth=2
+" set softtabstop=0
+" set expandtab
 
 syntax on
 
-set mouse=a
+" Prevent auto add new line in eof
+set binary
+set noeol
 
 " We need this for plugins like Syntastic and vim-gitgutter which put symbols
 " in the sign column.
@@ -120,7 +125,7 @@ set laststatus=2
 "     https://github.com/abertsch/Menlo-for-Powerline
 " download all the .ttf files, double-click on them and click "Install"
 " Finally, uncomment the next line
-"let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 
 " Show PASTE if in paste mode
 let g:airline_detect_paste=1
@@ -131,8 +136,14 @@ let g:airline#extensions#tabline#enabled = 1
 " Use the solarized theme for the Airline status bar
 let g:airline_theme='solarized'
 
+" Only show file name in tab, not file directory
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" ----- Map leader key ------------
+let mapleader = ","
+
 " ----- jistr/vim-nerdtree-tabs -----
-" Open/close NERDTree Tabs with \t
+" Open/close NERDTree Tabs with ,t
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
 " To have NERDTree always open on startup
 let g:nerdtree_tabs_open_on_console_startup = 1
@@ -157,6 +168,7 @@ let g:easytags_dynamic_files = 2
 let g:easytags_resolve_links = 1
 let g:easytags_suppress_ctags_warning = 1
 
+
 " ----- majutsushi/tagbar settings -----
 " Open/close tagbar with \b
 nmap <silent> <leader>b :TagbarToggle<CR>
@@ -167,7 +179,6 @@ nmap <silent> <leader>b :TagbarToggle<CR>
 " ----- airblade/vim-gitgutter settings -----
 " In vim-airline, only display "hunks" if the diff is non-zero
 let g:airline#extensions#hunks#non_zero_only = 1
-
 
 " ----- Raimondi/delimitMate settings -----
 let delimitMate_expand_cr = 1
@@ -182,3 +193,17 @@ augroup END
 " ----- jez/vim-superman settings -----
 " better man page support
 noremap K :SuperMan <cword><CR>
+
+" Change size of nerdtree window
+let g:NERDTreeWinSize=33
+
+" Set layout
+set colorcolumn=90
+set textwidth=90
+
+" Maping tab to reach easier
+nnoremap tl  :tabnext<CR>
+nnoremap th  :tabprev<CR>
+nnoremap td  :tabclose<CR>
+nnoremap tn  :tabnew<CR>
+let g:EditorConfig_core_mode = 'external_command'
