@@ -1,11 +1,15 @@
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+export TERM="xterm-256color"
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="bira"
+# Path to your oh-my-zsh installation.
+  export ZSH=/home/therusetiawan/.oh-my-zsh
+
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+POWERLEVEL9K_MODE='awesome-fontconfig'
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,12 +55,11 @@ ZSH_THEME="bira"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
+source $ZSH/oh-my-zsh.sh
+
 # User configuration
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
-
-source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -72,10 +75,7 @@ source $ZSH/oh-my-zsh.sh
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-#include Z
-. ~/z.sh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -86,19 +86,27 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias op="xdg-open"
-alias of="nautilus ."
-alias sv="sudo vim"
-alias pa="php artisan"
-alias mati="sudo init 0"
-alias mtd="sudo mount /dev/sda5 /media/therusetiawan/DATA"
-alias mtm="sudo mount /dev/sda6 /media/therusetiawan/MASTER"
-alias mth="sudo mount /dev/sda7 /media/therusetiawan/HIBURAN"
+
+#initialize Z (https://github.com/rupa/z) 
+. ~/z.sh 
+
+export DEFAULT_USER="$(whoami)"
+
 source /home/therusetiawan/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+alias op="xdg-open"
+alias of="nautilus ."
+alias mati="sudo init 0"
 
-#rbenv path by Heru Setiawan
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
+export PATH=~/.local/bin:$PATH
+
+# it's for Golang
+export GOPATH=/media/therusetiawan/DATA/GO
+export PATH="$PATH:$GOPATH/bin"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
